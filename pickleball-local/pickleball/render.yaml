@@ -1,0 +1,26 @@
+# Render Blueprint — one free web service in Singapore.
+# In Render: New → Blueprint → pick this repo. You will be asked for the three
+# values marked `sync: false` (database URL and the two passcodes).
+services:
+  - type: web
+    name: pickleball
+    runtime: python
+    region: singapore
+    plan: free
+    buildCommand: pip install -r requirements.txt
+    startCommand: >-
+      streamlit run app.py
+      --server.port $PORT
+      --server.address 0.0.0.0
+      --server.headless true
+    healthCheckPath: /_stcore/health
+    autoDeploy: true
+    envVars:
+      - key: PYTHON_VERSION
+        value: 3.12.8
+      - key: DATABASE_URL
+        sync: false
+      - key: PICKLEBALL_ADMIN_PASSCODE
+        sync: false
+      - key: PICKLEBALL_REFEREE_PASSCODE
+        sync: false
